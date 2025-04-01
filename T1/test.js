@@ -2,7 +2,7 @@ import assert from "assert";
 
 // Choose proper "import" depending on your PL.
 // import { greedy_snake_move } from "./t1-as/build/release.js";
-// import { greedy_snake_move } from "./t1_rust/pkg/t1_rust.js";
+import { greedy_snake_move } from "./t1_rust/pkg/t1_rust.js";
 // [Write your own "import" for other PLs.]
 
 function greedy_snake_fn_checker (snake, food) {
@@ -12,6 +12,7 @@ function greedy_snake_fn_checker (snake, food) {
     let turn = 1;
     while (true) {
         let result = greedy_snake_move(now_snake, food);
+        // console.log(result)
         let new_snake = [
             now_snake[0] + (result == 3) - (result == 1),
             now_snake[1] + (result == 0) - (result == 2),
@@ -41,11 +42,13 @@ function greedy_snake_fn_checker (snake, food) {
         turn += 1;
     }
 }
-
 // Test cases
 assert.strictEqual(greedy_snake_fn_checker([4,4,4,5,4,6,4,7], [1,1], greedy_snake_move) >= 0, true);
-assert.strictEqual(greedy_snake_fn_checker([1,1,1,2,1,3,1,4], [1,5], greedy_snake_move) >= 0, true);
+assert.strictEqual(greedy_snake_fn_checker([1,1,1,2,1,3,1,4], [1,5], greedy_snake_move) >= 0, true);  
 assert.strictEqual(greedy_snake_fn_checker([1,1,1,2,2,2,2,1], [1,5], greedy_snake_move) >= 0, true);
 assert.strictEqual(greedy_snake_fn_checker([1,1,2,1,2,2,1,2], [1,5], greedy_snake_move) >= 0, true);
-
+assert.strictEqual(greedy_snake_fn_checker([7,4,7,5,8,5,8,6], [4,7], greedy_snake_move) >= 0, true);
+assert.strictEqual(greedy_snake_fn_checker([4,7,4,6,3,6,3,5], [2,4], greedy_snake_move) >= 0, true);
+//unique test 极端特殊情况测试
+assert.strictEqual(greedy_snake_fn_checker([1,1,2,1,3,1,4,1], [5,1], greedy_snake_move) >= 0, true);
 console.log("🎉 You have passed all the tests provided.");
