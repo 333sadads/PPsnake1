@@ -2,7 +2,7 @@ import assert from "assert";
 
 // Choose proper "import" depending on your PL.
 // import { greedySnakeMoveBarriers } from "./t2_as/build/release.js";
-// import { greedy_snake_move_barriers as greedySnakeMoveBarriers } from "./t2_rust/pkg/t2_rust.js"
+import { greedy_snake_move_barriers as greedySnakeMoveBarriers } from "./t2_rust/pkg/t2_rust.js"
 // [Write your own "import" for other PLs.]
 
 function greedy_snake_barriers_checker(initial_snake, food_num, foods, barriers, access) {
@@ -112,5 +112,15 @@ assert.strictEqual(
     ),
     1
 );
-
+//特殊极端样例
+assert.strictEqual(
+    greedy_snake_barriers_checker(
+        [4,4,3,4,2,4,1,4], 
+        1,                  
+        [7,4],                              
+        [5,5,6,5,6,4,6,3,5,3],
+        1             
+    )>0,
+    true
+);
 console.log("🎉 You have passed all the tests provided.");
