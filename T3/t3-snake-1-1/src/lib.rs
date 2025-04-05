@@ -4,8 +4,8 @@ use std::cmp::min;
 const inf: i32 = 10000000;
 
 const lambda_food: f64 = 1.0;
-const lambda_snake: f64 = -0.25;
-const lambda_border: f64 = -1.0;
+const lambda_snake: f64 = -0.5;
+const lambda_border: f64 = -2.5;
 
 const puh_gray: f64 = -10000.0;
 const puh_black: f64 = -1000000.0;
@@ -69,24 +69,30 @@ pub fn greedy_snake_step(n: i32, snake: &[i32], snake_num: i32, snake_ot: &[i32]
         } 
 
         let mut mark: f64 = 0.0;
-        for i in 0..(4*snake_num) as usize {
-            mark  = mark + get_mark(lambda_snake, (x, y), snake_bank[i], round);
+        if (snake_num > 1) {
+            for i in 0..(4*snake_num) as usize {
+                mark  = mark + get_mark(lambda_snake, (x, y), snake_bank[i], round);
+            }
         }
         for i in 0..food_num as usize {
             mark = mark + get_mark(lambda_food, (x, y), food_bank[i], round);
         }
-        mark = mark + get_mark_from_dist(lambda_border, get_dist2border((x,y), n));
+        mark = mark + get_mark_from_dist(lambda_border, get_dist2border((x,y), n));            
 
-        //check gray
-        for i in 0..snake_num as usize {
-            let snake_x = snake_bank[4*i].0;
-            let snake_y = snake_bank[4*i].1;
 
-            if get_dist((x, y), (snake_x, snake_y)) <= 1 {
-                mark = mark + puh_gray;
-                break;
-            }
+        // check gray
+        if (snake_num > 1) {
+            for i in 0..snake_num as usize {
+                let snake_x = snake_bank[4*i].0;
+                let snake_y = snake_bank[4*i].1;
+
+                if get_dist((x, y), (snake_x, snake_y)) <= 1 {
+                    mark = mark + puh_gray;
+                    break;
+                }
+            }            
         }
+
 
         //check black
         if get_dist2border((x, y), n) == 0 {
@@ -108,23 +114,6 @@ pub fn greedy_snake_step(n: i32, snake: &[i32], snake_num: i32, snake_ot: &[i32]
     ans
 }
 
-fn get_snake_dir(snake: &[i32]) -> i32 {
-    if snake[0] == snake[2] {
-        if snake[1] > snake[3] {
-            0 
-        } else {
-            2
-        }
-    } else {
-        if snake[0] > snake[2] {
-            3
-        } else {
-            1
-        }
-    }
-}
-
-
 fn get_dist2border(pt: (i32, i32), n: i32) -> i32 {
     let mut ans = inf;
     ans = min(ans, get_dist(pt, (pt.0, 0)));
@@ -143,7 +132,7 @@ fn get_mark(lambda: f64, pt1: (i32, i32), pt2: (i32, i32), round: i32) -> f64 {
     if round > 10 {
         100.0 * lambda / (f64::from(dist) * f64::from(dist) * f64::from(dist) + 0.1)        
     } else {
-        100.0 * lambda / (f64::from(dist) * f64::from(dist) * f64::from(dist) * f64::from(dist)  + 0.1)         
+        100.0 * lambda / (f64::from(dist) * f64::from(dist) * f64::from(dist) * f64::from(dist) * f64::from(dist) * f64::from(dist) * f64::from(dist) * f64::from(dist) * f64::from(dist) * f64::from(dist) + 0.1)         
     }
 }
 

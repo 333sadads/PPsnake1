@@ -68,11 +68,12 @@ const finalResults = getFinalResults(gameState);
 //   console.log(`Snake ${i + 1}: ${finalResults.scores[i]} points${finalResults.alive[i] ? " (survived)" : " (died in round " + (finalResults.dead_round[i]) + ")"} spent ${finalResults.time[i].toFixed(3)}ms`);
 // }
 
-if(finalResults.scores[0] > finalResults.scores[1]) {
-  console.log("1");
-} else if (finalResults.scores[0] == finalResults.scores[1]) {
-  console.log(Math.random() < 0.5 ? "0" : "1");
+let ans = 3;
+for (let i = 1;i <=3;i++) {
+  if (finalResults.scores[0] < finalResults.scores[i]) {
+    ans--;
+  } else if (finalResults.scores[0] == finalResults.scores[i])
+    ans -= Math.random() < 0.5 ? 0 : 1;
 }
-else { 
-  console.log("0");
-}
+console.log(`${ans}`);
+
